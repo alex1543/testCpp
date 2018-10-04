@@ -30,14 +30,36 @@ int main(int argc, char *argv[]) {
 
     while(1) {
         connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
-                                                                                                                                                                              
-        ticks = argv[];
-		
-		char str[]=argv[], *p = str;
+      
+		char str[]=*argv[2], *p = str;
 		int r = 0;
-		while(*p++) if(*p >= '0' && *p <= '9') r = r*10 + *p - '0';
+		int *arr;
+		int size = sizeof(str[]);
+		int sumarr = 0;
+		for (int i = 0; i < size; i++) {
+			while(*p++) if(*p >= '0' && *p <= '9') r = r*10 + *p - '0';
+			cin >> arr[i];
+			arr[i] << r;
+		}
 	
-		ticks = r;
+		// Сортировка массива пузырьком
+		for (int i = 0; i < size - 1; i++) {
+			for (int j = 0; j < size - i - 1; j++) {
+				if (arr[j] > arr[j + 1]) {
+					// меняем элементы местами
+					temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+				}
+			}
+		}
+		for (int i = 0; i < size; i++) {
+				ticks << arr[i] << " ";
+				sumarr = sumarr + arr[i];
+			}
+	
+	
+		ticks << sumarr;
 		
         snprintf(sendBuff, sizeof(sendBuff), "%.24s\r\n", ctime(&ticks))
         write(connfd, sendBuff, strlen(sendBuff));
